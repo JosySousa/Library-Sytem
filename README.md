@@ -23,4 +23,4 @@
 
 1. Clone este repositório:  
    ```sh
-   git clone https://github.com/seu-usuario/library-system.git
+   git clone https://github.com/JosySousa/Library-Sytem.git
