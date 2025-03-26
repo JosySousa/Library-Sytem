@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LibraSys - Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+    <div class="container">
+        <div class="left-side">
+            <img src="{{ url_for('static', filename='imagem/logo.png') }}" alt="LibraSys Logo">
+        </div>
+        <div class="right-side">
+            <h2>LibraSys</h2>
+            <p>Sistema Gerenciador de Biblioteca</p>
+            <form action="{{ url_for('login') }}" method="POST">
+                <input type="text" name="usuario" placeholder="Usuário" required>
+                <input type="password" name="senha" placeholder="Senha" required>
+                <button type="submit">LOGIN</button>
+            </form>
+
+            {% if erro %}
+            <p style="color: red;">{{ erro }}</p>
+            {% endif %}
+            <a href="#">Consulta Pública</a>
+        </div>
+    </div>
+</body>
+
+</html>

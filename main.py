@@ -1,4 +1,57 @@
+from flask import Flask, jsonify, render_template,request
 from funcoes import buscar_leitores_por_nome, buscar_livros_por_nome, cadastrar_leitor, cadastrar_livro, emprestar_livro, devolver_livro, listar_emprestimos
+
+app = Flask(__name__)
+
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        # Lógica de login aqui
+        pass
+    return render_template('login.html')
+
+@app.route('/home')
+def home():
+    return "Bem-vindo ao Sistema de Biblioteca!"
+
+@app.route('/leitores', methods=['GET'])
+def get_leitores():
+    leitores = buscar_leitores_por_nome("")  # Aqui você pode buscar todos os leitores
+    leitores_lista = [{"id": leitor[0], "nome": leitor[1], "email": leitor[2]} for leitor in leitores]
+    return jsonify(leitores_lista)
+
+@app.route('/livros', methods=['GET'])
+def get_livros():
+    livros = buscar_livros_por_nome("")  # Aqui você pode buscar todos os livros
+    livros_lista = [{"id": livro[0], "titulo": livro[1], "autor": livro[2]} for livro in livros]
+    return jsonify(livros_lista)
+
+@app.route('/cadastrar_leitor', methods=['POST'])
+def cadastrar_leitor_api():
+    data = request.get_json()
+    nome = data.get('nome')
+    endereco = data.get('endereco')
+    telefone = data.get('telefone')
+    email = data.get('email')
+    cadastrar_leitor(nome, endereco, telefone, email)
+    return jsonify({"message": f"Leitor {nome} cadastrado com sucesso!"})
+
+@app.route('/cadastrar_livro', methods=['POST'])
+def cadastrar_livro_api():
+    data = request.get_json()
+    titulo = data.get('titulo')
+    autor = data.get('autor')
+    quantidade = data.get('quantidade')
+    cadastrar_livro(titulo, autor, quantidade)
+    return jsonify({"message": f"Livro {titulo} cadastrado com sucesso!"})
+
+if __name__ == "__main__":
+    app.run(debug=True)
+
 
 
 def menu():
@@ -6,7 +59,7 @@ def menu():
         print("\nMenu:")
         print("1. Cadastrar Leitor")
         print("2. Cadastrar Livro")
-        print("3. Emprestar ou Devolver Livro")
+        print("3. Emprestar/Devolver Livro")
         print("4. Listar Empréstimos")
         print("5. Sair")
 
